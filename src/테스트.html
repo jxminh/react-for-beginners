@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Word Test Game</title>
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column; /* column 방향으로 요소 정렬 */
+        justify-content: center;
+        align-items: center;
+        background-color: black; /* 배경색 검은색 */
+        font-size: 1.5em;
+        font-weight: 600;
+        font-family: Arial, sans-serif;
+        cursor: pointer;
+      }
+      #label {
+        margin-bottom: 20px; /* 레이블과 단어 사이 간격 */
+        color: yellow; /* 레이블 색상 노란색 */
+      }
+      #wordDisplay {
+        font-weight: bold; /* 단어 두껍게 */
+        color: white; /* 단어 색상 검은색 */
+      }
+      #resetButton {
+        margin-top: 20px; /* 버튼과 단어 사이의 간격 */
+        padding: 10px 20px;
+        font-size: 1em;
+        color: white;
+        background-color: red; /* 버튼 배경색 */
+        border: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body onclick="showNextWord()">
+    <div id="label">영어공부를</div>
+    <div id="wordDisplay">시작하자</div>
+
+    <script>
+      const originalWordPairs = [
+        { english: "library", korean: "도서관" },
+        { english: "per", korean: "~당, ~에 대하여" },
+        { english: "clever", korean: "영리한" },
+        { english: "nut", korean: "견과류" },
+        { english: "actual", korean: "실제의" },
+        { english: "keep", korean: "유지하다" },
+        { english: "reason", korean: "이유" },
+        { english: "honest", korean: "정직한" },
+        { english: "victory", korean: "승리" },
+        { english: "sauce", korean: "소스" },
+
+        { english: "flood", korean: "홍수" },
+        { english: "paste", korean: "반죽" },
+        { english: "fee", korean: "요금" },
+        { english: "ripe", korean: "익은" },
+        { english: "service", korean: "서비스" },
+        { english: "file", korean: "파일" },
+        { english: "restroom", korean: "화장실" },
+        { english: "dive", korean: "다이빙하다" },
+        { english: "explain", korean: "설명하다" },
+        { english: "gas", korean: "가스, 기체" },
+
+        { english: "lack", korean: "부족" },
+        { english: "comic", korean: "웃기는" },
+        { english: "pay", korean: "지불하다" },
+        { english: "prepare", korean: "준비하다" },
+        { english: "magician", korean: "마술사" },
+        { english: "everyone", korean: "모든 사람" },
+        { english: "everything", korean: "모든 것 " },
+        { english: "everywhere", korean: "모든 곳" },
+        { english: "cage", korean: "새장" },
+        { english: "sense", korean: "감각" },
+        /*    
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        { english: "", korean: "" },
+        // ... 여기에 더 많은 단어 쌍을 추가하세요 ... -->*/
+      ];
+
+      let wordPairs = [...originalWordPairs]; // 단어 쌍 배열 복사
+
+      function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+      }
+
+      function restartGame() {
+        wordPairs = [...originalWordPairs]; // 원본 배열로 다시 설정
+        shuffle(wordPairs);
+        showKorean = Math.random() < 0.5; // 무작위로 영어 또는 한글 시작
+        showNextWord();
+      }
+
+      shuffle(wordPairs);
+      let showKorean = Math.random() < 0.5; // 무작위로 영어 또는 한글 시작
+
+      function showNextWord() {
+        if (wordPairs.length === 0) {
+          alert("모든 단어를 다 표시했습니다. 게임을 다시 시작합니다.");
+          restartGame(); // 게임 다시 시작
+          return;
+        }
+
+        if (showKorean) {
+          document.getElementById("label").textContent = "문제:: ";
+          document.getElementById("wordDisplay").textContent =
+            wordPairs[0].korean;
+        } else {
+          document.getElementById("label").textContent = "답 :: ";
+          document.getElementById("wordDisplay").textContent =
+            wordPairs[0].english;
+          wordPairs.shift(); // 영어를 표시한 후 단어 쌍 제거
+        }
+        showKorean = !showKorean;
+      }
+    </script>
+  </body>
+</html>
